@@ -17,6 +17,9 @@
    </screenshots>
    <content_rating type="oars-1.0" />
    <releases>
+      <release version="9.10.0-2" date="2021-12-30">
+         <description>fixed missing arguments in wrapper script</description>
+      </release>
       <release version="9.10.0" date="2021-12-18">
          <description>initial packaging</description>
       </release>

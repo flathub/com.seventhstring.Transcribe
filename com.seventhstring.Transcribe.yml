@@ -12,7 +12,6 @@ finish-args:
 - --filesystem=xdg-config/transcribe:create
 - --filesystem=xdg-music
 modules:
-
 - name: transcribe-wrapper
   buildsystem: simple
   build-commands:
@@ -21,8 +20,7 @@ modules:
   - type: script
     dest-filename: transcribe-wrapper
     commands:
-    - HOME=$XDG_CONFIG_HOME/transcribe /app/tmp/bin/transcribe/transcribe
-
+    - HOME=$XDG_CONFIG_HOME/transcribe /app/tmp/bin/transcribe/transcribe "$@"
 - name: transcribe-metadata
   buildsystem: simple
   build-commands:
@@ -30,7 +28,6 @@ modules:
   sources:
   - type: file
     path: com.seventhstring.Transcribe.metainfo.xml
-
 - name: transcribe
   buildsystem: simple
   build-commands:
@@ -43,8 +40,6 @@ modules:
   - type: archive
     url: https://www.seventhstring.com/xscribe/downlo/xscsetup-9.10.0.tar.gz
     sha256: 1eb061356c02b0c11e600519d793abb33c9af4c01d3efcd6b8c95fb5a015e58b
-  post-install:
-  - "sed -i s:Exec=/app/tmp/bin/transcribe/transcribe:Exec=/app/bin/transcribe-wrapper: /app/share/applications/seventhstring-transcribe.desktop"
   modules:
   - name: xdg-utils
     buildsystem: autotools
@@ -57,12 +52,12 @@ modules:
     - name: links
       buildsystem: autotools
       post-install:
-      - ln -s links "${FLATPAK_DEST}/bin/elinks"
+      - ln -s links "/app/bin/elinks"
       cleanup: ['*']
       sources:
       - type: archive
-        url: http://links.twibright.com/download/links-2.21.tar.bz2
-        sha256: 285eed8591c7781ec26213df82786665aaa1b9286782e8a7a1a7e2a6e1630d63
+        url: http://www.jikos.cz/~mikulas/links/download/links-1.04.tar.gz
+        sha256: 003961d3c829efed2bd182e75843cf8fdd2f7976613654a0735d2f9652b072e9
     - name: xmlto
       buildsystem: autotools
       cleanup: ['*']
