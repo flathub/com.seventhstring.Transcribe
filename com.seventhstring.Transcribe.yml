@@ -38,10 +38,14 @@ modules:
       XDG_DATA_HOME: /app/share
   sources:
   - type: archive
-    url: https://www.seventhstring.com/xscribe/downlo/xscsetup-9.10.0.tar.gz
-    sha256: 1eb061356c02b0c11e600519d793abb33c9af4c01d3efcd6b8c95fb5a015e58b
+    url: https://www.seventhstring.com/xscribe/downlo/xscsetup-9.20.0.tar.gz
+    sha256: 95e5c0d4cfa934890b2ec1e54b8614b5e8027719aaeb8e4c970c36c0ffe9c1d8
   post-install:
-  - desktop-file-edit --set-key="Exec" --set-value="/app/bin/transcribe-wrapper %f" "/app/share/applications/seventhstring-transcribe.desktop"
+  - |
+      desktop-file-edit \
+        --set-key="Categories" --set-value="AudioVideo" \
+        --set-key="Exec" --set-value="/app/bin/transcribe-wrapper %f" \
+        "/app/share/applications/seventhstring-transcribe.desktop"
   modules:
   - name: xdg-utils
     buildsystem: autotools
