@@ -17,6 +17,9 @@
    </screenshots>
    <content_rating type="oars-1.0" />
    <releases>
+      <release version="9.20.0-2" date="2022-04-03">
+         <description>fix handling of mime type</description>
+      </release>
       <release version="9.20.0-1" date="2022-04-02">
          <description>bump to version 9.20.0</description>
       </release>
