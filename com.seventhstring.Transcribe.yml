@@ -46,6 +46,8 @@ modules:
         --set-key="Categories" --set-value="AudioVideo" \
         --set-key="Exec" --set-value="/app/bin/transcribe-wrapper %f" \
         "/app/share/applications/seventhstring-transcribe.desktop"
+  - mv /app/share/mime/packages/{seventhstring-transcribe.xml,${FLATPAK_ID}.xml}
+  - sed -i "s/icon name=\"seventhstring-transcribe\"/icon name=\"${FLATPAK_ID}\"/g" /app/share/mime/packages/${FLATPAK_ID}.xml
   modules:
   - name: xdg-utils
     buildsystem: autotools
