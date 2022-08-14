@@ -38,8 +38,8 @@ modules:
       XDG_DATA_HOME: /app/share
   sources:
   - type: archive
-    url: https://www.seventhstring.com/xscribe/downlo/xscsetup-9.20.0.tar.gz
-    sha256: 95e5c0d4cfa934890b2ec1e54b8614b5e8027719aaeb8e4c970c36c0ffe9c1d8
+    url: https://www.seventhstring.com/xscribe/downlo/xscsetup-9.21.0.tar.gz
+    sha256: 7afd35795e978b2d62c89d9ecbb6b318506d63a2e08aef0bc8d7297a7589eb80
   post-install:
   - |
       desktop-file-edit \
