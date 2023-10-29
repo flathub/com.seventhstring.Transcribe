@@ -1,6 +1,6 @@
 app-id: com.seventhstring.Transcribe
 runtime: org.freedesktop.Platform
-runtime-version: '21.08'
+runtime-version: '23.08'
 sdk: org.freedesktop.Sdk
 command: transcribe-wrapper
 rename-desktop-file: seventhstring-transcribe.desktop
@@ -9,7 +9,6 @@ finish-args:
 - --share=ipc
 - --socket=x11
 - --socket=pulseaudio
-- --filesystem=xdg-config/transcribe:create
 - --filesystem=xdg-music
 modules:
 - name: transcribe-wrapper
