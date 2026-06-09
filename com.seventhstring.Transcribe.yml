@@ -1,6 +1,6 @@
 app-id: com.seventhstring.Transcribe
 runtime: org.freedesktop.Platform
-runtime-version: '23.08'
+runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 command: transcribe-wrapper
 rename-desktop-file: seventhstring-transcribe.desktop
@@ -11,64 +11,67 @@ finish-args:
 - --socket=pulseaudio
 - --filesystem=xdg-music
 modules:
-- name: transcribe-wrapper
-  buildsystem: simple
-  build-commands:
-  - install -D -m755 -t /app/bin/ transcribe-wrapper
-  sources:
-  - type: script
-    dest-filename: transcribe-wrapper
-    commands:
-    - HOME=$XDG_CONFIG_HOME/transcribe /app/tmp/bin/transcribe/transcribe "$@"
-- name: transcribe-metadata
-  buildsystem: simple
-  build-commands:
-  - install -D -m644 -t /app/share/metainfo com.seventhstring.Transcribe.metainfo.xml
-  sources:
-  - type: file
-    path: com.seventhstring.Transcribe.metainfo.xml
-- name: transcribe
-  buildsystem: simple
-  build-commands:
-  - bash install-linux.sh -i
-  build-options:
-    env:
-      HOME: /app/tmp
-      XDG_DATA_HOME: /app/share
-  sources:
-  - type: archive
-    url: https://www.seventhstring.com/xscribe/downlo/xscsetup-9.30.2.tar.gz
-    sha256: 835447ad37ab5cf5c6fa9dfcd3f34d134fc3d88c05c116e148a2e2c1cb819f30
-  post-install:
-  - |
-      desktop-file-edit \
-        --set-key="Categories" --set-value="AudioVideo" \
-        --set-key="Exec" --set-value="/app/bin/transcribe-wrapper %f" \
-        "/app/share/applications/seventhstring-transcribe.desktop"
-  - mv /app/share/mime/packages/{seventhstring-transcribe.xml,${FLATPAK_ID}.xml}
-  - sed -i "s/icon name=\"seventhstring-transcribe\"/icon name=\"${FLATPAK_ID}\"/g" /app/share/mime/packages/${FLATPAK_ID}.xml
-  modules:
   - name: xdg-utils
     buildsystem: autotools
     cleanup: ['*']
     sources:
-    - type: archive
-      url: https://portland.freedesktop.org/download/xdg-utils-1.1.3.tar.gz
-      sha256: d798b08af8a8e2063ddde6c9fa3398ca81484f27dec642c5627ffcaa0d4051d9
+      - type: archive
+        url: https://portland.freedesktop.org/download/xdg-utils-1.1.3.tar.gz
+        sha256: d798b08af8a8e2063ddde6c9fa3398ca81484f27dec642c5627ffcaa0d4051d9
     modules:
-    - name: links
-      buildsystem: autotools
-      post-install:
-      - ln -s links "/app/bin/elinks"
-      cleanup: ['*']
-      sources:
+      # Required by xmlto for converting HTML files to plain text
+      #
+      # Technically, we don't need this but patching the xmlto dependency
+      # out of xdg-utils just isn't worth it.
+      - name: links
+        buildsystem: autotools
+        post-install:
+          - ln -s links "${FLATPAK_DEST}/bin/elinks"
+        cleanup: ['*']
+        sources:
+          - type: archive
+            url: http://links.twibright.com/download/links-2.30.tar.bz2
+            sha256: c4631c6b5a11527cdc3cb7872fc23b7f2b25c2b021d596be410dadb40315f166
+
+      # Required by xdg-util's build system
+      - name: xmlto
+        buildsystem: autotools
+        cleanup: ['*']
+        sources:
+          - type: archive
+            url: https://releases.pagure.org/xmlto/xmlto-0.0.29.tar.bz2
+            sha256: 6000d8e8f0f9040426c4f85d7ad86789bc88d4aeaef585c4d4110adb0b214f21
+          - type: script
+            dest-filename: autogen.sh
+            commands:
+              - autoreconf -fiv
+
+  - name: transcribe
+    buildsystem: simple
+    build-commands:
+      - bash install-linux.sh -i
+    build-options:
+      env:
+        HOME: /app/tmp
+        XDG_DATA_HOME: /app/share
+    post-install:
+      - install -D -m644 -t /app/share/metainfo com.seventhstring.Transcribe.metainfo.xml
+      - install -D -m755 -t /app/bin/ transcribe-wrapper
+      - |
+          desktop-file-edit \
+            --set-key="Categories" --set-value="AudioVideo" \
+            --set-key="Exec" --set-value="/app/bin/transcribe-wrapper %f" \
+            "/app/share/applications/seventhstring-transcribe.desktop"
+      - mv /app/share/mime/packages/{seventhstring-transcribe.xml,${FLATPAK_ID}.xml}
+      - sed -i "s/icon name=\"seventhstring-transcribe\"/icon name=\"${FLATPAK_ID}\"/g" /app/share/mime/packages/${FLATPAK_ID}.xml
+
+    sources:
       - type: archive
-        url: http://www.jikos.cz/~mikulas/links/download/links-1.04.tar.gz
-        sha256: 003961d3c829efed2bd182e75843cf8fdd2f7976613654a0735d2f9652b072e9
-    - name: xmlto
-      buildsystem: autotools
-      cleanup: ['*']
-      sources:
-      - type: archive
-        url: https://releases.pagure.org/xmlto/xmlto-0.0.28.tar.bz2
-        sha256: 1130df3a7957eb9f6f0d29e4aa1c75732a7dfb6d639be013859b5c7ec5421276
+        url: https://www.seventhstring.com/xscribe/downlo/xscsetup-9.30.2.tar.gz
+        sha256: 835447ad37ab5cf5c6fa9dfcd3f34d134fc3d88c05c116e148a2e2c1cb819f30
+      - type: file
+        path: com.seventhstring.Transcribe.metainfo.xml
+      - type: script
+        dest-filename: transcribe-wrapper
+        commands:
+        - HOME=$XDG_CONFIG_HOME/transcribe /app/tmp/bin/transcribe/transcribe "$@"

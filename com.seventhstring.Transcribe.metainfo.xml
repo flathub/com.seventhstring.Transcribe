@@ -10,36 +10,23 @@
    </description>
    <url type="homepage">https://www.seventhstring.com/xscribe/overview.html</url>
    <launchable type="desktop-id">com.seventhstring.Transcribe.desktop</launchable>
+   <content_rating type="oars-1.1" />
+   <developer id="com.seventhstring">
+      <name>Seventh String Software</name>
+   </developer>
    <screenshots>
       <screenshot type="default">
          <image>https://www.seventhstring.com/xscribe/images/layoutgtk.png</image>
       </screenshot>
    </screenshots>
-   <content_rating type="oars-1.0" />
    <releases>
-      <release version="9.30.2-1" date="2023-10-23">
-         <description>bump to version 9.30.2</description>
-      </release>
-      <release version="9.21.0-2" date="2023-10-23">
-         <description>bump runtime version to 23.08</description>
-      </release>
-      <release version="9.21.0-1" date="2022-08-14">
-         <description>bump to version 9.21.0</description>
-      </release>
-      <release version="9.20.0-2" date="2022-04-03">
-         <description>fix handling of mime type</description>
-      </release>
-      <release version="9.20.0-1" date="2022-04-02">
-         <description>bump to version 9.20.0</description>
-      </release>
-      <release version="9.10.0-3" date="2021-12-31">
-         <description>fixed broken .desktop file</description>
-      </release>
-      <release version="9.10.0-2" date="2021-12-30">
-         <description>fixed missing arguments in wrapper script</description>
-      </release>
-      <release version="9.10.0" date="2021-12-18">
-         <description>initial packaging</description>
-      </release>
+      <release version="9.30.2-1" date="2023-10-23"/>
+      <release version="9.21.0-2" date="2023-10-23"/>
+      <release version="9.21.0-1" date="2022-08-14"/>
+      <release version="9.20.0-2" date="2022-04-03"/>
+      <release version="9.20.0-1" date="2022-04-02"/>
+      <release version="9.10.0-3" date="2021-12-31"/>
+      <release version="9.10.0-2" date="2021-12-30"/>
+      <release version="9.10.0" date="2021-12-18"/>
    </releases>
 </component>
